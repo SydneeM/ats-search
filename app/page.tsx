@@ -1,3 +1,13 @@
+"use client"
+
+import { useEffect, useState } from "react";
+
+import Job from "@/components/Job";
+import Sites from "@/components/Sites";
+import Times from "@/components/Times";
+import { Site } from "@/components/Sites";
+import { Time } from "@/components/Times";
+
 interface Promotion {
   "title": string,
   "htmlTitle": string,
@@ -193,27 +203,58 @@ interface Search {
   "items": Result[]
 }
 
-export default async function Home() {
-  const query = 'site:boards.greenhouse.io united states intext:"apply" (intext:"ui") after:2025-04-21';
+export default function Home() {
+  const [jobQuery, setJobQuery] = useState<string>("");
+  const [siteQuery, setSiteQuery] = useState<string>("");
+  const [timeQuery, setTimeQuery] = useState<string>("");
+  const [results, setResults] = useState<Result[]>([]);
 
-  const searchParams = new URLSearchParams({
-    key: process.env.GOOGLE_SEARCH_API_KEY || "",
-    cx: process.env.GOOGLE_SEARCH_ENGINE_ID || "",
-    q: query
-  }).toString();
+  useEffect(() => {
+    const getResults = async () => {
+      const query = `${siteQuery} united states intext:"apply" (intext:"${jobQuery}") after:${timeQuery}`;
 
-  const response = await fetch("https://www.googleapis.com/customsearch/v1?" + searchParams);
-  const searchData: Search = await response.json();
-  const results: Result[] = searchData.items;
-  console.log(results);
+      const searchParams = new URLSearchParams({
+        key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
+        cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
+        q: query
+      }).toString();
+
+      console.log("https://www.googleapis.com/customsearch/v1?" + searchParams);
+
+      const response = await fetch("https://www.googleapis.com/customsearch/v1?" + searchParams);
+      const searchData: Search = await response.json();
+      const searchResults: Result[] = searchData.items;
+      console.log(searchResults);
+      setResults(searchResults);
+    };
+
+    if (jobQuery !== "" && siteQuery !== "" && timeQuery !== "") {
+      getResults();
+    }
+  }, [jobQuery, siteQuery, timeQuery]);
+
+  const handleSetJob = (value: string) => {
+    setJobQuery(value);
+  }
+
+  const handleSetSite = (value: Site) => {
+    setSiteQuery(`site:${value.site}`);
+  }
+
+  const handleSetTime = (value: Time) => {
+    setTimeQuery(`after:${value.date}`);
+  }
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-4 mx-auto w-[50vw]">
+      <Job handleSetJob={handleSetJob} />
+      <Sites handleSetSite={handleSetSite} />
+      <Times handleSetTime={handleSetTime} />
       {
-        results.map((result) => (
+        results?.map((result) => (
           <div
             key={result.link}
-            className="flex flex-col gap-y-4 px-3 py-2"
+            className="flex flex-col gap-y-2 px-3 py-2 border-2"
           >
             <span>{result.title}</span>
             <span>{result.snippet}</span>

@@ -3,7 +3,7 @@
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { useState } from "react";
 
-interface Time {
+export interface Time {
   name: string;
   date: string;
 }
@@ -38,22 +38,32 @@ const times: Time[] = [
   }
 ];
 
-export default function Times() {
+interface TimesProps {
+  handleSetTime: (time: Time) => void;
+}
+
+export default function Times({ handleSetTime }: TimesProps) {
   let [selected, setSelected] = useState(times[0]);
 
   return (
     <div className="flex flex-col">
       <span>Time Range</span>
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox
+        value={selected}
+        onChange={(value) => {
+          setSelected(value);
+          handleSetTime(value);
+        }}
+      >
         <ListboxButton
-          className="w-[10vw] px-3 py-2 border-2 focus:outline-none"
+          className="w-50 px-3 py-2 border-2 focus:outline-none"
         >
           {selected.name}
         </ListboxButton>
         <ListboxOptions
           anchor="bottom"
           transition
-          className="bg-gray-700 w-[10vw] focus:outline-none"
+          className="bg-gray-700 w-50 focus:outline-none"
         >
           {times.map((time) => (
             <ListboxOption

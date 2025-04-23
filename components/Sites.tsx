@@ -3,7 +3,7 @@
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { useState } from "react";
 
-interface Site {
+export interface Site {
   name: string;
   site: string;
 }
@@ -51,22 +51,32 @@ const sites: Site[] = [
   }
 ];
 
-export default function Sites() {
+interface SitesProps {
+  handleSetSite: (site: Site) => void;
+}
+
+export default function Sites({ handleSetSite }: SitesProps) {
   let [selected, setSelected] = useState(sites[0]);
 
   return (
     <div className="flex flex-col">
       <span>Job Sites</span>
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox
+        value={selected}
+        onChange={(value) => {
+          setSelected(value);
+          handleSetSite(value);
+        }}
+      >
         <ListboxButton
-          className="w-[10vw] px-3 py-2 border-2 focus:outline-none"
+          className="w-50 px-3 py-2 border-2 focus:outline-none"
         >
           {selected.name}
         </ListboxButton>
         <ListboxOptions
           anchor="bottom"
           transition
-          className="bg-gray-700 w-[10vw] focus:outline-none"
+          className="bg-gray-700 w-50 focus:outline-none"
         >
           {sites.map((site) => (
             <ListboxOption
