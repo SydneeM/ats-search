@@ -260,7 +260,7 @@ export default function Home() {
         results.map((result) => (
           <div
             key={result.link}
-            className="flex flex-col gap-y-2 px-5 py-4 bg-foreground/10"
+            className="flex flex-col gap-y-2 px-5 py-4 bg-gray-700/50"
           >
             <h3 className="font-semibold text-lg">{result.title}</h3>
             <p>{result.snippet}</p>

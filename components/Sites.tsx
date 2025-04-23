@@ -59,7 +59,7 @@ export default function Sites({ handleSetSite }: SitesProps) {
   const [selected, setSelected] = useState<Site | null>(null);
 
   return (
-    <div className="flex flex-col gap-y-1">
+    <div className="flex flex-col gap-y-1 w-[32%]">
       <h2 className="text-3xl">Job Sites</h2>
       <Listbox
         value={selected}
@@ -70,13 +70,13 @@ export default function Sites({ handleSetSite }: SitesProps) {
           }
         }}
       >
-        <ListboxButton className="w-50 px-3 py-2 border-2 border-gray-700 focus:outline-none hover:cursor-pointer text-start">
+        <ListboxButton className="px-3 py-2 border-2 border-gray-700 focus:outline-none hover:cursor-pointer text-start">
           {selected ? selected.name : "Select a Site"}
         </ListboxButton>
         <ListboxOptions
           anchor="bottom"
           transition
-          className="bg-gray-700 w-50 focus:outline-none"
+          className="bg-gray-700 w-[var(--button-width)] focus:outline-none"
         >
           {sites.map((site) => (
             <ListboxOption
