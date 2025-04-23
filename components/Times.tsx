@@ -1,6 +1,6 @@
 "use client"
 
-import { Field, Label, Radio, RadioGroup } from "@headlessui/react";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { useState } from "react";
 
 interface Time {
@@ -42,18 +42,30 @@ export default function Times() {
   let [selected, setSelected] = useState(times[0]);
 
   return (
-    <RadioGroup value={selected} onChange={setSelected} aria-label="Times radio">
-      {times.map((site) => (
-        <Field key={site.name} className="flex items-center gap-2">
-          <Radio
-            value={site}
-            className="group flex size-5 items-center justify-center rounded-full border bg-white data-[checked]:bg-blue-400"
-          >
-            <span className="invisible size-2 rounded-full bg-white group-data-[checked]:visible" />
-          </Radio>
-          <Label>{site.name}</Label>
-        </Field>
-      ))}
-    </RadioGroup>
+    <div className="flex flex-col">
+      <span>Time Range</span>
+      <Listbox value={selected} onChange={setSelected}>
+        <ListboxButton
+          className="w-[10vw] px-3 py-2 border-2 focus:outline-none"
+        >
+          {selected.name}
+        </ListboxButton>
+        <ListboxOptions
+          anchor="bottom"
+          transition
+          className="bg-gray-700 w-[10vw] focus:outline-none"
+        >
+          {times.map((time) => (
+            <ListboxOption
+              key={time.name}
+              value={time}
+              className="px-3 py-2 hover:cursor-pointer hover:bg-white/10"
+            >
+              <div>{time.name}</div>
+            </ListboxOption>
+          ))}
+        </ListboxOptions>
+      </Listbox>
+    </div>
   );
 }

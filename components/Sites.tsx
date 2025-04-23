@@ -1,6 +1,6 @@
 "use client"
 
-import { Field, Label, Radio, RadioGroup } from "@headlessui/react";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { useState } from "react";
 
 interface Site {
@@ -55,18 +55,30 @@ export default function Sites() {
   let [selected, setSelected] = useState(sites[0]);
 
   return (
-    <RadioGroup value={selected} onChange={setSelected} aria-label="Sites radio">
-      {sites.map((site) => (
-        <Field key={site.name} className="flex items-center gap-2">
-          <Radio
-            value={site}
-            className="group flex size-5 items-center justify-center rounded-full border bg-white data-[checked]:bg-blue-400"
-          >
-            <span className="invisible size-2 rounded-full bg-white group-data-[checked]:visible" />
-          </Radio>
-          <Label>{site.name}</Label>
-        </Field>
-      ))}
-    </RadioGroup>
+    <div className="flex flex-col">
+      <span>Job Sites</span>
+      <Listbox value={selected} onChange={setSelected}>
+        <ListboxButton
+          className="w-[10vw] px-3 py-2 border-2 focus:outline-none"
+        >
+          {selected.name}
+        </ListboxButton>
+        <ListboxOptions
+          anchor="bottom"
+          transition
+          className="bg-gray-700 w-[10vw] focus:outline-none"
+        >
+          {sites.map((site) => (
+            <ListboxOption
+              key={site.name}
+              value={site}
+              className="px-3 py-2 hover:cursor-pointer hover:bg-white/10"
+            >
+              <div>{site.name}</div>
+            </ListboxOption>
+          ))}
+        </ListboxOptions>
+      </Listbox>
+    </div>
   );
 }
