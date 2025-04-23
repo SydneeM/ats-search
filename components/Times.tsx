@@ -1,7 +1,7 @@
 "use client"
 
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 export interface Time {
   name: string;
@@ -42,7 +42,7 @@ interface TimesProps {
   handleSetTime: (time: Time) => void;
 }
 
-export default function Times({ handleSetTime }: TimesProps) {
+const Times = memo(function Times({ handleSetTime }: TimesProps) {
   const [selected, setSelected] = useState<Time | null>(null);
 
   return (
@@ -57,13 +57,13 @@ export default function Times({ handleSetTime }: TimesProps) {
           }
         }}
       >
-        <ListboxButton className="px-3 py-2 border-2 border-gray-700 focus:outline-none hover:cursor-pointer text-start">
+        <ListboxButton className="px-3 py-2 border-2 border-gray-700 focus:outline-none hover:cursor-pointer text-start rounded-xl">
           {selected ? selected.name : "Select a Time"}
         </ListboxButton>
         <ListboxOptions
           anchor="bottom"
           transition
-          className="bg-gray-700 w-[var(--button-width)] focus:outline-none"
+          className="bg-gray-700 w-[var(--button-width)] focus:outline-none rounded-xl"
         >
           {times.map((time) => (
             <ListboxOption
@@ -78,4 +78,6 @@ export default function Times({ handleSetTime }: TimesProps) {
       </Listbox>
     </div>
   );
-}
+});
+
+export default Times;

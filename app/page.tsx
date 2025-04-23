@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Job from "@/components/Job";
 import Sites from "@/components/Sites";
@@ -217,6 +217,7 @@ export default function Home() {
         key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
         cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
         lr: "lang_en",
+        sort: "date",
         q: query
       }).toString();
 
@@ -236,17 +237,17 @@ export default function Home() {
     }
   }, [jobQuery, siteQuery, timeQuery]);
 
-  const handleSetJob = (value: string) => {
+  const handleSetJob = useCallback((value: string) => {
     setJobQuery(value);
-  }
+  }, []);
 
-  const handleSetSite = (value: Site) => {
+  const handleSetSite = useCallback((value: Site) => {
     setSiteQuery(`site:${value.site}`);
-  }
+  }, []);
 
-  const handleSetTime = (value: Time) => {
+  const handleSetTime = useCallback((value: Time) => {
     setTimeQuery(`after:${value.date}`);
-  }
+  }, []);
 
   return (
     <div className="flex flex-col gap-y-6 mx-auto w-[60vw] p-20">
@@ -260,9 +261,14 @@ export default function Home() {
         results.map((result) => (
           <div
             key={result.link}
-            className="flex flex-col gap-y-2 px-5 py-4 bg-gray-700/50"
+            className="flex flex-col gap-y-2 px-5 py-4 bg-gray-700/50 rounded-xl"
           >
-            <h3 className="font-semibold text-lg">{result.title}</h3>
+            <a
+              href={result.link}
+              className="font-semibold text-lg hover:underline"
+            >
+              {result.title}
+            </a>
             <p>{result.snippet}</p>
           </div>
         ))

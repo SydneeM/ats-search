@@ -1,7 +1,7 @@
 "use client"
 
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 export interface Site {
   name: string;
@@ -55,7 +55,7 @@ interface SitesProps {
   handleSetSite: (site: Site) => void;
 }
 
-export default function Sites({ handleSetSite }: SitesProps) {
+const Sites = memo(function Sites({ handleSetSite }: SitesProps) {
   const [selected, setSelected] = useState<Site | null>(null);
 
   return (
@@ -70,13 +70,13 @@ export default function Sites({ handleSetSite }: SitesProps) {
           }
         }}
       >
-        <ListboxButton className="px-3 py-2 border-2 border-gray-700 focus:outline-none hover:cursor-pointer text-start">
+        <ListboxButton className="px-3 py-2 border-2 border-gray-700 focus:outline-none hover:cursor-pointer text-start rounded-xl">
           {selected ? selected.name : "Select a Site"}
         </ListboxButton>
         <ListboxOptions
           anchor="bottom"
           transition
-          className="bg-gray-700 w-[var(--button-width)] focus:outline-none"
+          className="bg-gray-700 w-[var(--button-width)] focus:outline-none rounded-xl"
         >
           {sites.map((site) => (
             <ListboxOption
@@ -91,4 +91,6 @@ export default function Sites({ handleSetSite }: SitesProps) {
       </Listbox>
     </div>
   );
-}
+});
+
+export default Sites;
