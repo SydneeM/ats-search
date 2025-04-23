@@ -217,7 +217,8 @@ export default function Home() {
     };
 
     const getResults = async () => {
-      const query = `${siteQuery} united states intext:"apply" (intext:"${jobQuery}") after:${timeQuery}`;
+      const query = `${siteQuery} united states intext:"apply" ${jobQuery} ${timeQuery}`;
+      console.log(query)
 
       const searchParams = new URLSearchParams({
         key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
@@ -243,7 +244,7 @@ export default function Home() {
   }, [jobQuery, siteQuery, timeQuery, numDays]);
 
   const handleSetJob = useCallback((value: string) => {
-    setJobQuery(value);
+    setJobQuery(`intext:"${value}"`);
   }, []);
 
   const handleSetSite = useCallback((value: Site) => {
