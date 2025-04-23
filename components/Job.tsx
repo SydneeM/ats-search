@@ -24,10 +24,10 @@ export default function Job({ handleSetJob }: JobProps) {
   };
 
   return (
-    <div className="flex flex-col gap-y-1">
+    <div className="flex flex-col gap-y-1 w-[30%]">
       <h2 className="text-3xl">Job</h2>
       <input
-        className="w-50 px-3 py-2 border-2 focus:outline-none"
+        className="px-3 py-2 border-2 focus:outline-none"
         value={job}
         onChange={(e) => handleChange(e.target.value)}
       />
