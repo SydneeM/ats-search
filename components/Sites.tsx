@@ -56,7 +56,7 @@ interface SitesProps {
 }
 
 export default function Sites({ handleSetSite }: SitesProps) {
-  let [selected, setSelected] = useState(sites[0]);
+  let [selected, setSelected] = useState<Site | null>(null);
 
   return (
     <div className="flex flex-col">
@@ -64,14 +64,14 @@ export default function Sites({ handleSetSite }: SitesProps) {
       <Listbox
         value={selected}
         onChange={(value) => {
-          setSelected(value);
-          handleSetSite(value);
+          if (value) {
+            setSelected(value);
+            handleSetSite(value);
+          }
         }}
       >
-        <ListboxButton
-          className="w-50 px-3 py-2 border-2 focus:outline-none"
-        >
-          {selected.name}
+        <ListboxButton className="w-50 px-3 py-2 border-2 focus:outline-none">
+          {selected ? selected.name : "Select a Site"}
         </ListboxButton>
         <ListboxOptions
           anchor="bottom"

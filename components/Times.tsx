@@ -43,7 +43,7 @@ interface TimesProps {
 }
 
 export default function Times({ handleSetTime }: TimesProps) {
-  let [selected, setSelected] = useState(times[0]);
+  let [selected, setSelected] = useState<Time | null>(null);
 
   return (
     <div className="flex flex-col">
@@ -51,14 +51,14 @@ export default function Times({ handleSetTime }: TimesProps) {
       <Listbox
         value={selected}
         onChange={(value) => {
-          setSelected(value);
-          handleSetTime(value);
+          if (value) {
+            setSelected(value);
+            handleSetTime(value);
+          }
         }}
       >
-        <ListboxButton
-          className="w-50 px-3 py-2 border-2 focus:outline-none"
-        >
-          {selected.name}
+        <ListboxButton className="w-50 px-3 py-2 border-2 focus:outline-none">
+          {selected ? selected.name : "Select a Time"}
         </ListboxButton>
         <ListboxOptions
           anchor="bottom"

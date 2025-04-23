@@ -219,13 +219,13 @@ export default function Home() {
         q: query
       }).toString();
 
-      console.log("https://www.googleapis.com/customsearch/v1?" + searchParams);
-
       const response = await fetch("https://www.googleapis.com/customsearch/v1?" + searchParams);
       const searchData: Search = await response.json();
       const searchResults: Result[] = searchData.items;
-      console.log(searchResults);
-      setResults(searchResults);
+      if (searchResults !== undefined) {
+        console.log(searchResults);
+        setResults(searchResults);
+      }
     };
 
     if (jobQuery !== "" && siteQuery !== "" && timeQuery !== "") {
@@ -251,7 +251,7 @@ export default function Home() {
       <Sites handleSetSite={handleSetSite} />
       <Times handleSetTime={handleSetTime} />
       {
-        results?.map((result) => (
+        results.map((result) => (
           <div
             key={result.link}
             className="flex flex-col gap-y-2 px-3 py-2 border-2"
