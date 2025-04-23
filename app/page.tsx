@@ -246,10 +246,13 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col gap-y-4 mx-auto w-[50vw]">
-      <Job handleSetJob={handleSetJob} />
-      <Sites handleSetSite={handleSetSite} />
-      <Times handleSetTime={handleSetTime} />
+    <div className="flex flex-col gap-y-6 mx-auto w-[60vw] p-20">
+      <h1 className="text-5xl">ATS Search</h1>
+      <div className="flex flex-row justify-between">
+        <Job handleSetJob={handleSetJob} />
+        <Sites handleSetSite={handleSetSite} />
+        <Times handleSetTime={handleSetTime} />
+      </div>
       {
         results.map((result) => (
           <div
