@@ -207,9 +207,15 @@ export default function Home() {
   const [jobQuery, setJobQuery] = useState<string>("");
   const [siteQuery, setSiteQuery] = useState<string>("");
   const [timeQuery, setTimeQuery] = useState<string>("");
+  const [numDays, setNumDays] = useState<number>(0);
   const [results, setResults] = useState<Result[]>([]);
 
   useEffect(() => {
+    const filterEdgeDates = (allResults: Result[]) => {
+      const snippetDate = `${numDays + 1} day`;
+      return allResults.filter((result) => !result.snippet.includes(snippetDate));
+    };
+
     const getResults = async () => {
       const query = `${siteQuery} united states intext:"apply" (intext:"${jobQuery}") after:${timeQuery}`;
 
@@ -217,7 +223,6 @@ export default function Home() {
         key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
         cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
         lr: "lang_en",
-        sort: "date",
         q: query
       }).toString();
 
@@ -226,7 +231,7 @@ export default function Home() {
       const searchResults: Result[] = searchData.items;
       if (searchResults !== undefined) {
         console.log(searchResults);
-        setResults(searchResults);
+        setResults(filterEdgeDates(searchResults));
       } else {
         setResults([]);
       }
@@ -235,7 +240,7 @@ export default function Home() {
     if (jobQuery !== "" && siteQuery !== "" && timeQuery !== "") {
       getResults();
     }
-  }, [jobQuery, siteQuery, timeQuery]);
+  }, [jobQuery, siteQuery, timeQuery, numDays]);
 
   const handleSetJob = useCallback((value: string) => {
     setJobQuery(value);
@@ -247,6 +252,7 @@ export default function Home() {
 
   const handleSetTime = useCallback((value: Time) => {
     setTimeQuery(`after:${value.date}`);
+    setNumDays(value.days);
   }, []);
 
   return (

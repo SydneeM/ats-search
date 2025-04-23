@@ -6,6 +6,7 @@ import { memo, useState } from "react";
 export interface Time {
   name: string;
   date: string;
+  days: number;
 }
 
 const padZeros = (value: number) => {
@@ -22,19 +23,38 @@ const getDate = (numDays: number) => {
 const times: Time[] = [
   {
     name: "1 Day",
-    date: getDate(1)
+    date: getDate(1),
+    days: 1
   },
   {
     name: "2 Days",
-    date: getDate(2)
+    date: getDate(2),
+    days: 2
   },
   {
     name: "3 Days",
-    date: getDate(3)
+    date: getDate(3),
+    days: 3
   },
   {
-    name: "1 Week",
-    date: getDate(7)
+    name: "4 Days",
+    date: getDate(4),
+    days: 4
+  },
+  {
+    name: "5 Days",
+    date: getDate(5),
+    days: 5
+  },
+  {
+    name: "6 Days",
+    date: getDate(6),
+    days: 6
+  },
+  {
+    name: "7 Days",
+    date: getDate(7),
+    days: 7
   }
 ];
 
