@@ -46,7 +46,7 @@ export default function Times({ handleSetTime }: TimesProps) {
   let [selected, setSelected] = useState<Time | null>(null);
 
   return (
-    <div className="flex flex-col gap-y-1 w-[30%]">
+    <div className="flex flex-col gap-y-1">
       <h2 className="text-3xl">Time Range</h2>
       <Listbox
         value={selected}
@@ -57,7 +57,7 @@ export default function Times({ handleSetTime }: TimesProps) {
           }
         }}
       >
-        <ListboxButton className="px-3 py-2 border-2 focus:outline-none hover:cursor-pointer text-start">
+        <ListboxButton className="w-50 px-3 py-2 border-2 focus:outline-none hover:cursor-pointer text-start">
           {selected ? selected.name : "Select a Time"}
         </ListboxButton>
         <ListboxOptions
