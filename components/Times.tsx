@@ -13,9 +13,9 @@ const padZeros = (value: number) => {
 };
 
 const getDate = (numDays: number) => {
-  let date = new Date();
+  const date = new Date();
   date.setDate(date.getDate() - numDays);
-  const backDate: string = `${date.getFullYear()}-${padZeros(date.getMonth())}-${padZeros(date.getDate())}`;
+  const backDate: string = `${date.getFullYear()}-${padZeros(date.getMonth() + 1)}-${padZeros(date.getDate())}`;
   return backDate;
 };
 
@@ -43,7 +43,7 @@ interface TimesProps {
 }
 
 export default function Times({ handleSetTime }: TimesProps) {
-  let [selected, setSelected] = useState<Time | null>(null);
+  const [selected, setSelected] = useState<Time | null>(null);
 
   return (
     <div className="flex flex-col gap-y-1">

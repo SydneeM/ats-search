@@ -225,6 +225,8 @@ export default function Home() {
       if (searchResults !== undefined) {
         console.log(searchResults);
         setResults(searchResults);
+      } else {
+        setResults([]);
       }
     };
 

@@ -56,7 +56,7 @@ interface SitesProps {
 }
 
 export default function Sites({ handleSetSite }: SitesProps) {
-  let [selected, setSelected] = useState<Site | null>(null);
+  const [selected, setSelected] = useState<Site | null>(null);
 
   return (
     <div className="flex flex-col gap-y-1">
