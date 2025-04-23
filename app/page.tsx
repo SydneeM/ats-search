@@ -36,13 +36,13 @@ interface Result {
   "displayLink": string,
   "snippet": string,
   "htmlSnippet": string,
-  "cacheId": string,
+  "cacheId"?: string,
   "formattedUrl": string,
   "htmlFormattedUrl": string,
   "pagemap": object,
-  "mime": string,
-  "fileFormat": string,
-  "image": {
+  "mime"?: string,
+  "fileFormat"?: string,
+  "image"?: {
     "contextLink": string,
     "height": number,
     "width": number,
@@ -51,7 +51,7 @@ interface Result {
     "thumbnailHeight": number,
     "thumbnailWidth": number
   },
-  "labels": [
+  "labels"?: [
     {
       "name": string,
       "displayName": string,
@@ -216,6 +216,7 @@ export default function Home() {
       const searchParams = new URLSearchParams({
         key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
         cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
+        lr: "lang_en",
         q: query
       }).toString();
 
@@ -259,10 +260,10 @@ export default function Home() {
         results.map((result) => (
           <div
             key={result.link}
-            className="flex flex-col gap-y-2 px-3 py-2 border-2"
+            className="flex flex-col gap-y-2 px-5 py-4 bg-foreground/10"
           >
-            <span>{result.title}</span>
-            <span>{result.snippet}</span>
+            <h3 className="font-semibold text-lg">{result.title}</h3>
+            <p>{result.snippet}</p>
           </div>
         ))
       }

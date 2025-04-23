@@ -70,7 +70,7 @@ export default function Sites({ handleSetSite }: SitesProps) {
           }
         }}
       >
-        <ListboxButton className="w-50 px-3 py-2 border-2 focus:outline-none hover:cursor-pointer text-start">
+        <ListboxButton className="w-50 px-3 py-2 border-2 border-gray-700 focus:outline-none hover:cursor-pointer text-start">
           {selected ? selected.name : "Select a Site"}
         </ListboxButton>
         <ListboxOptions
