@@ -77,19 +77,19 @@ const Times = memo(function Times({ handleSetTime }: TimesProps) {
           }
         }}
       >
-        <ListboxButton className="px-3 py-2 border-2 border-gray-700 focus:outline-none hover:cursor-pointer text-start rounded-xl">
+        <ListboxButton className="px-3 py-2 border-2 border-border focus:outline-none hover:cursor-pointer text-start rounded-xl">
           {selected ? selected.name : "Select a Time"}
         </ListboxButton>
         <ListboxOptions
           anchor="bottom"
           transition
-          className="bg-background border-2 border-gray-700 w-[var(--button-width)] focus:outline-none rounded-xl"
+          className="bg-background border-2 border-border w-[var(--button-width)] focus:outline-none rounded-xl"
         >
           {times.map((time) => (
             <ListboxOption
               key={time.name}
               value={time}
-              className="px-3 py-2 hover:cursor-pointer hover:bg-white/10"
+              className="px-3 py-2 hover:cursor-pointer hover:bg-card"
             >
               <div>{time.name}</div>
             </ListboxOption>

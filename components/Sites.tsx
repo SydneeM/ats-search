@@ -70,19 +70,19 @@ const Sites = memo(function Sites({ handleSetSite }: SitesProps) {
           }
         }}
       >
-        <ListboxButton className="px-3 py-2 border-2 border-gray-700 focus:outline-none hover:cursor-pointer text-start rounded-xl">
+        <ListboxButton className="px-3 py-2 border-2 border-border focus:outline-none hover:cursor-pointer text-start rounded-xl">
           {selected ? selected.name : "Select a Site"}
         </ListboxButton>
         <ListboxOptions
           anchor="bottom"
           transition
-          className="bg-background border-2 border-gray-700 w-[var(--button-width)] focus:outline-none rounded-xl"
+          className="bg-background border-2 border-border w-[var(--button-width)] focus:outline-none rounded-xl"
         >
           {sites.map((site) => (
             <ListboxOption
               key={site.name}
               value={site}
-              className="px-3 py-2 hover:cursor-pointer hover:bg-white/10"
+              className="px-3 py-2 hover:cursor-pointer hover:bg-card"
             >
               <div>{site.name}</div>
             </ListboxOption>

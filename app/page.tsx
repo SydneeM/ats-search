@@ -268,7 +268,7 @@ export default function Home() {
         results.map((result) => (
           <div
             key={result.link}
-            className="flex flex-col gap-y-2 px-5 py-4 bg-white/10 rounded-xl"
+            className="flex flex-col gap-y-2 px-5 py-4 bg-card rounded-xl"
           >
             <a
               href={result.link}
