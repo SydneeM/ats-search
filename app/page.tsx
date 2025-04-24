@@ -218,7 +218,7 @@ export default function Home() {
 
     const getResults = async () => {
       const query = `${siteQuery} united states intext:"apply" ${jobQuery} ${timeQuery}`;
-      console.log(query)
+      console.log(query);
 
       const searchParams = new URLSearchParams({
         key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
@@ -268,11 +268,12 @@ export default function Home() {
         results.map((result) => (
           <div
             key={result.link}
-            className="flex flex-col gap-y-2 px-5 py-4 bg-gray-700/50 rounded-xl"
+            className="flex flex-col gap-y-2 px-5 py-4 bg-white/10 rounded-xl"
           >
             <a
               href={result.link}
-              className="font-semibold text-lg hover:underline"
+              target="_blank"
+              className="font-semibold text-lg hover:underline w-fit text-[#00a5ec]"
             >
               {result.title}
             </a>

@@ -67,7 +67,7 @@ const Times = memo(function Times({ handleSetTime }: TimesProps) {
 
   return (
     <div className="flex flex-col gap-y-1 w-[32%]">
-      <h2 className="text-3xl">Time Range</h2>
+      <h2 className="text-2xl">Time Range</h2>
       <Listbox
         value={selected}
         onChange={(value) => {
@@ -83,7 +83,7 @@ const Times = memo(function Times({ handleSetTime }: TimesProps) {
         <ListboxOptions
           anchor="bottom"
           transition
-          className="bg-gray-700 w-[var(--button-width)] focus:outline-none rounded-xl"
+          className="bg-background border-2 border-gray-700 w-[var(--button-width)] focus:outline-none rounded-xl"
         >
           {times.map((time) => (
             <ListboxOption

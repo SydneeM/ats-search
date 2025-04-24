@@ -60,7 +60,7 @@ const Sites = memo(function Sites({ handleSetSite }: SitesProps) {
 
   return (
     <div className="flex flex-col gap-y-1 w-[32%]">
-      <h2 className="text-3xl">Job Sites</h2>
+      <h2 className="text-2xl">Job Sites</h2>
       <Listbox
         value={selected}
         onChange={(value) => {
@@ -76,7 +76,7 @@ const Sites = memo(function Sites({ handleSetSite }: SitesProps) {
         <ListboxOptions
           anchor="bottom"
           transition
-          className="bg-gray-700 w-[var(--button-width)] focus:outline-none rounded-xl"
+          className="bg-background border-2 border-gray-700 w-[var(--button-width)] focus:outline-none rounded-xl"
         >
           {sites.map((site) => (
             <ListboxOption
