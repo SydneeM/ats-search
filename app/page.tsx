@@ -229,7 +229,37 @@ export default function Home() {
 
       const response = await fetch("https://www.googleapis.com/customsearch/v1?" + searchParams);
       const searchData: Search = await response.json();
-      const searchResults: Result[] = searchData.items;
+      let searchResults: Result[] = [];
+
+      if ('nextPage' in searchData.queries) {
+        searchResults  = searchData.items;
+        let nextIndex = String(searchData.queries.nextPage[0].startIndex);
+
+        let hasNext = true;
+        while (hasNext) {
+          const nextSearchParams = new URLSearchParams({
+            key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
+            cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
+            lr: "lang_en",
+            q: query,
+            start: nextIndex
+          }).toString();
+
+          const nextResponse = await fetch("https://www.googleapis.com/customsearch/v1?" + nextSearchParams);
+          const nextSearchData: Search = await nextResponse.json();
+          console.log('next search data:', nextSearchData);
+          searchResults.push(...nextSearchData.items);
+
+          hasNext = 'nextPage' in nextSearchData.queries;
+          if (hasNext) {
+            nextIndex = String(nextSearchData.queries.nextPage[0].startIndex);
+            console.log('next index:', nextIndex);
+          }
+        }
+      } else {
+        searchResults = searchData.items;
+      }
+
       if (searchResults !== undefined) {
         console.log(searchResults);
         setResults(filterEdgeDates(searchResults));
