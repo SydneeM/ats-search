@@ -217,33 +217,41 @@ export default function Home() {
     };
 
     const getResults = async () => {
-      const query = `${siteQuery} united states intext:"apply" ${jobQuery} ${timeQuery}`;
-      const searchResults: Result[] = [];
-      let startIndex = String(1);
-      let hasNext = true;
+      try {
+        const query = `${siteQuery} united states intext:"apply" ${jobQuery} ${timeQuery}`;
+        const searchResults: Result[] = [];
+        let startIndex = String(1);
+        let hasNext = true;
 
-      while (hasNext) {
-        const searchParams = new URLSearchParams({
-          key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
-          cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
-          lr: "lang_en",
-          q: query,
-          start: startIndex
-        }).toString();
+        while (hasNext) {
+          const searchParams = new URLSearchParams({
+            key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
+            cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
+            lr: "lang_en",
+            q: query,
+            start: startIndex
+          }).toString();
 
-        const response = await fetch("https://www.googleapis.com/customsearch/v1?" + searchParams);
-        const searchData: Search = await response.json();
-        if (searchData.items !== undefined) {
-          searchResults.push(...searchData.items);
+          const response = await fetch("https://www.googleapis.com/customsearch/v1?" + searchParams);
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error.message);
+          }
+
+          const searchData: Search = await response.json();
+          if (searchData.items !== undefined) {
+            searchResults.push(...searchData.items);
+          }
+
+          hasNext = "nextPage" in searchData.queries;
+          if (hasNext) {
+            startIndex = String(searchData.queries.nextPage[0].startIndex);
+          }
         }
-
-        hasNext = "nextPage" in searchData.queries;
-        if (hasNext) {
-          startIndex = String(searchData.queries.nextPage[0].startIndex);
-        }
+        setResults(filterEdgeDates(searchResults));
+      } catch (error) {
+        console.log(error);
       }
-
-      setResults(filterEdgeDates(searchResults));
     };
 
     if (jobQuery !== "" && siteQuery !== "" && timeQuery !== "") {
