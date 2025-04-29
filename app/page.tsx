@@ -272,7 +272,8 @@ export default function Home() {
         <Sites handleSetSite={handleSetSite} />
         <Times handleSetTime={handleSetTime} />
       </div>
-      {
+      {results.length === 0 ?
+        <span>No Results Found</span> :
         results.map((result) => (
           <div
             key={result.link}
