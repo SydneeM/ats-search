@@ -233,7 +233,9 @@ export default function Home() {
 
         const response = await fetch("https://www.googleapis.com/customsearch/v1?" + searchParams);
         const searchData: Search = await response.json();
-        searchResults.push(...searchData.items);
+        if (searchData.items !== undefined) {
+          searchResults.push(...searchData.items);
+        }
 
         hasNext = "nextPage" in searchData.queries;
         if (hasNext) {
@@ -241,11 +243,7 @@ export default function Home() {
         }
       }
 
-      if (searchResults !== undefined) {
-        setResults(filterEdgeDates(searchResults));
-      } else {
-        setResults([]);
-      }
+      setResults(filterEdgeDates(searchResults));
     };
 
     if (jobQuery !== "" && siteQuery !== "" && timeQuery !== "") {
