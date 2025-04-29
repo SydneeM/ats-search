@@ -218,50 +218,30 @@ export default function Home() {
 
     const getResults = async () => {
       const query = `${siteQuery} united states intext:"apply" ${jobQuery} ${timeQuery}`;
-      console.log(query);
+      const searchResults: Result[] = [];
+      let startIndex = String(1);
+      let hasNext = true;
 
-      const searchParams = new URLSearchParams({
-        key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
-        cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
-        lr: "lang_en",
-        q: query
-      }).toString();
+      while (hasNext) {
+        const searchParams = new URLSearchParams({
+          key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
+          cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
+          lr: "lang_en",
+          q: query,
+          start: startIndex
+        }).toString();
 
-      const response = await fetch("https://www.googleapis.com/customsearch/v1?" + searchParams);
-      const searchData: Search = await response.json();
-      let searchResults: Result[] = [];
+        const response = await fetch("https://www.googleapis.com/customsearch/v1?" + searchParams);
+        const searchData: Search = await response.json();
+        searchResults.push(...searchData.items);
 
-      if ('nextPage' in searchData.queries) {
-        searchResults  = searchData.items;
-        let nextIndex = String(searchData.queries.nextPage[0].startIndex);
-
-        let hasNext = true;
-        while (hasNext) {
-          const nextSearchParams = new URLSearchParams({
-            key: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_API_KEY || "",
-            cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
-            lr: "lang_en",
-            q: query,
-            start: nextIndex
-          }).toString();
-
-          const nextResponse = await fetch("https://www.googleapis.com/customsearch/v1?" + nextSearchParams);
-          const nextSearchData: Search = await nextResponse.json();
-          console.log('next search data:', nextSearchData);
-          searchResults.push(...nextSearchData.items);
-
-          hasNext = 'nextPage' in nextSearchData.queries;
-          if (hasNext) {
-            nextIndex = String(nextSearchData.queries.nextPage[0].startIndex);
-            console.log('next index:', nextIndex);
-          }
+        hasNext = "nextPage" in searchData.queries;
+        if (hasNext) {
+          startIndex = String(searchData.queries.nextPage[0].startIndex);
         }
-      } else {
-        searchResults = searchData.items;
       }
 
       if (searchResults !== undefined) {
-        console.log(searchResults);
         setResults(filterEdgeDates(searchResults));
       } else {
         setResults([]);
