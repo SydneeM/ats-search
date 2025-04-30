@@ -8,6 +8,8 @@ import Times from "@/components/Times";
 import { Site } from "@/components/Sites";
 import { Time } from "@/components/Times";
 
+const MAX_START_INDEX = 91;
+
 interface Promotion {
   "title": string,
   "htmlTitle": string,
@@ -220,7 +222,7 @@ export default function Home() {
       try {
         const query = `${siteQuery} united states intext:"apply" ${jobQuery} ${timeQuery}`;
         const searchResults: Result[] = [];
-        let startIndex = String(1);
+        let startIndex = 1;
         let hasNext = true;
 
         while (hasNext) {
@@ -229,7 +231,7 @@ export default function Home() {
             cx: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_ENGINE_ID || "",
             lr: "lang_en",
             q: query,
-            start: startIndex
+            start: String(startIndex)
           }).toString();
 
           const response = await fetch("https://www.googleapis.com/customsearch/v1?" + searchParams);
@@ -245,7 +247,8 @@ export default function Home() {
 
           hasNext = "nextPage" in searchData.queries;
           if (hasNext) {
-            startIndex = String(searchData.queries.nextPage[0].startIndex);
+            startIndex = searchData.queries.nextPage[0].startIndex;
+            if (startIndex > MAX_START_INDEX) break;
           }
         }
         setResults(filterEdgeDates(searchResults));
