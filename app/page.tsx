@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react";
-
+import { isEqual, uniqWith } from "lodash";
 import Job from "@/components/Job";
 import Sites from "@/components/Sites";
 import Times from "@/components/Times";
@@ -213,6 +213,10 @@ export default function Home() {
   const [results, setResults] = useState<Result[]>([]);
 
   useEffect(() => {
+    const filterDuplicates = (allResults: Result[]) => {
+      return uniqWith(allResults, isEqual);
+    }
+
     const filterEdgeDates = (allResults: Result[]) => {
       const snippetDate = `${numDays + 1} day`;
       return allResults.filter((result) => !result.snippet.includes(snippetDate));
@@ -251,7 +255,7 @@ export default function Home() {
             if (startIndex > MAX_START_INDEX) break;
           }
         }
-        setResults(filterEdgeDates(searchResults));
+        setResults(filterDuplicates(filterEdgeDates(searchResults)));
       } catch (error) {
         console.log(error);
       }
